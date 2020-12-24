@@ -125,9 +125,7 @@ void linearLeastSquaresStd<_Scalar, _identifiedNum>::addOutputData(std::vector<_
 template<typename _Scalar, int _identifiedNum>
 vector<vector<_Scalar>> linearLeastSquaresStd<_Scalar, _identifiedNum>::readFromFile(const string &filename,int startCol,int endCol,int startRow,int endRow) {
 	vector<vector<_Scalar>> result;
-	//输入文件流
 	ifstream fAssociation;
-	//打开关联文件
 	fAssociation.open(filename.c_str());
 	int row = 1;
 	int size = 0;
@@ -136,13 +134,9 @@ vector<vector<_Scalar>> linearLeastSquaresStd<_Scalar, _identifiedNum>::readFrom
 		cout << "cann't open file"<<filename << endl;
 		return result;
 	}
-	//一直读取,知道文件结束
 	while (!fAssociation.eof()){
-		//读取一行的内容到字符串s中
 		getline(fAssociation, s);
-		//如果不是空行就可以分析数据了
 		if (!s.empty() && row >= startRow&&(row<=endRow|| endRow ==-1)) {
-			//字符串流
 			stringstream ss;
 			ss << s;
 			_Scalar val;

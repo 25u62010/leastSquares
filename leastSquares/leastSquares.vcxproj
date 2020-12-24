@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="discreteLinearLeastSquarse.h" />
     <ClInclude Include="linearLeastSquaresStd.h" />
+    <ClInclude Include="recursiveLeastSquaresStd.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

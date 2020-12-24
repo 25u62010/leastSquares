@@ -2,6 +2,10 @@
 #include <Eigen/core>
 #include "linearLeastSquaresStd.h"
 #include "discreteLinearLeastSquarse.h"
+#include "recursiveLeastSquaresStd.h"
+#include <fstream>
+#include <string>
+#include <sstream>
 using namespace std;
 using namespace Eigen;
 using namespace zlzLS;
@@ -32,25 +36,39 @@ int main(int argc,char* argv[]) {
 	//test.addOutputData(testVec1);
 	//test.optimize();
 	//test.printTheta();
-	linearLeastSquaresStd<double, 2> test2;
+	//linearLeastSquaresStd<double, 2> test2;
 
-	vector<double> YTest;
-	for (double x = 0; x < 10;x+=0.1) {
-		YTest.push_back(3.5*x+1.2);
+	//vector<double> YTest;
+	//for (double x = 0; x < 10;x+=0.1) {
+	//	YTest.push_back(3.5*x+1.2);
+	//}
+	//vector<vector<double>> PHITest = zlzLS::linearLeastSquaresStd<double,5>::readFromFile(".\\test.txt", 1, 2);
+	//test2.addInputData(PHITest);
+	////test2.printPHI();
+	//test2.addOutputData(YTest);
+	//test2.optimize();
+	//
+	//cout << test2<<endl;
+	//discreteLinearSquarse<double, 4, 2> test1;
+	//vector<double> inputTest = discreteLinearSquarse<double, 4, 2>::readFromFile(".\\dataGenerator.txt",1);
+	//vector<double> outputTest = discreteLinearSquarse<double, 4, 2>::readFromFile(".\\dataGenerator.txt", 2);
+	//test1.addInputData(inputTest);
+	//test1.addOutputData(outputTest);
+	//test1.optimize();
+	//cout << test1 << endl;
+	recursiveLeastSquaresStd<double, 2> test3;
+	test3.setRecordTheta(true);
+	double YTest3;
+	Matrix<double, 2, 1> phi3(10000,0);
+	for (double x = 15; x < 1000;x+=0.1) {
+		YTest3 = 3.5 * x + 1.234;
+		phi3(0, 0) = x;
+		phi3(1, 0) = 1;
+		test3.step(phi3,YTest3);
 	}
-	vector<vector<double>> PHITest = zlzLS::linearLeastSquaresStd<double,5>::readFromFile(".\\test.txt", 1, 2);
-	test2.addInputData(PHITest);
-	//test2.printPHI();
-	test2.addOutputData(YTest);
-	test2.optimize();
-	
-	cout << test2<<endl;
-	discreteLinearSquarse<double, 4, 2> test1;
-	vector<double> inputTest = discreteLinearSquarse<double, 4, 2>::readFromFile(".\\dataGenerator.txt",1);
-	vector<double> outputTest = discreteLinearSquarse<double, 4, 2>::readFromFile(".\\dataGenerator.txt", 2);
-	test1.addInputData(inputTest);
-	test1.addOutputData(outputTest);
-	test1.optimize();
-	cout << test1 << endl;
+	ofstream fAssociation;
+	fAssociation.open("outTest3.txt");
+	test3.writeThetaBuffer(fAssociation);
+	fAssociation.close();
 }
 

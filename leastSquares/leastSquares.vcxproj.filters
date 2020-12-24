@@ -26,5 +26,8 @@
     <ClInclude Include="discreteLinearLeastSquarse.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="recursiveLeastSquaresStd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

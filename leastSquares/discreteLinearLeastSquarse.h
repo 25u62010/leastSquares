@@ -6,6 +6,12 @@ namespace zlzLS {
 template<typename _Scalar, int _identifiedNum,int _rank>
 class discreteLinearSquarse{
 	public:
+		discreteLinearSquarse() {
+
+		}
+		~discreteLinearSquarse() {
+			
+		}
 		void addInputData(vector<_Scalar> datas);
 		void addOutputData(vector<_Scalar> datas);
 		vector<_Scalar> optimize();
