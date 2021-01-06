@@ -29,6 +29,16 @@ public:
 			P(i, i) = P0;
 		}
 	}
+	recursiveLeastSquaresStd(_Scalar theta0[_identifiedNum], _Scalar P0=10000) {
+		for (int i = 0; i < _identifiedNum; i++) {
+			theta(i, 0) = theta0[i];
+
+			for (int j = 0; j < _identifiedNum; j++) {
+				P(i, j) = 0;
+			}
+			P(i, i) = P0;
+		}
+	}
 	recursiveLeastSquaresStd() {
 		for (int i = 0; i < _identifiedNum; i++) {
 			theta(i, 0) = 0;
@@ -39,27 +49,29 @@ public:
 			P(i, i) = 1000;
 		}
 	}
-	void step(Matrix<_Scalar, _identifiedNum, 1> phi, _Scalar Y);
-	void step(vector<_Scalar> phi, _Scalar Y);
-	void setRecordTheta(bool flag) {
+	virtual void step(Matrix<_Scalar, _identifiedNum, 1> phi, _Scalar Y);//读取数据并迭代
+	virtual void step(vector<_Scalar> phi, _Scalar Y);
+	void setRecordTheta(bool flag) {//设置是否读取数据
 		recordTheta = flag;
 	};
+	//读取数据
 	void readTheta(Matrix<_Scalar, _identifiedNum, 1> _theta) {
 		_theta = theta;
 	}
-	void readTheta(vector<_Scalar> _theta) {
+	void readTheta(vector<_Scalar>& _theta) {
 		_theta = vector<_Scalar>(_identifiedNum);
 		for (int i = 0; i < _identifiedNum; i++) {
 			_theta[i] = theta(i,0);
 		}
 	}
 	void writeThetaBuffer(ostream &out);
-private:
+protected:
 	Matrix<_Scalar, _identifiedNum, 1> theta;
+	//数据缓存区
 	vector<Matrix<_Scalar, _identifiedNum, 1>> thetaBuffer;
 	Matrix<_Scalar, _identifiedNum, _identifiedNum> P;
 	Matrix<_Scalar, _identifiedNum, 1> K;
-
+	//记录数据标志
 	bool recordTheta;
 
 };
@@ -72,15 +84,15 @@ void recursiveLeastSquaresStd<_Scalar, _identifiedNum>::step(Matrix<_Scalar, _id
 	K = P / (1 + Phi_P_Phi) * phi;
 	Matrix<_Scalar, 1, 1> phiT_theta = phiTranspose * theta;
 	theta += K*(Y- phiT_theta(0,0));
-	P += -K* phiTranspose*P;
+	P += -K* K.transpose()*(1+ Phi_P_Phi);
 	if (recordTheta) {
 		thetaBuffer.push_back(theta);
 	}
 }
 template<typename _Scalar, int _identifiedNum>
 void recursiveLeastSquaresStd<_Scalar, _identifiedNum>::step(vector<_Scalar> phi, _Scalar Y) {
-	if (phi.size() != _identifiedNum || Y.size() != _identifiedNum) {
-		cout << "wrong with the size of phi or Y" << endl;
+	if (phi.size() != _identifiedNum) {
+		cout << "wrong with the size of phi" << endl;
 		return;
 	}
 	Matrix<_Scalar, _identifiedNum, 1> phiM;
