@@ -20,13 +20,25 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="linearLeastSquaresStd.h">
+    <ClInclude Include="discreteLLS.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="discreteLinearLeastSquarse.h">
+    <ClInclude Include="LLS_Std.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="recursiveLeastSquaresStd.h">
+    <ClInclude Include="fileOperations.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="forgettingFactorRLLS.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="discreteRLLS.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RLLS_Std.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="discreteForgettingFactorRLLS.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

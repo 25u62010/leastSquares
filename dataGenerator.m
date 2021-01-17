@@ -6,7 +6,7 @@ mSequences(:,2)=ms;
 out=sim("simuModel",10);
 simuOut=out.simuOut;
 
-fid = fopen('dataGenerator.txt','a');  
+fid = fopen('dataGenerator.txt','w');  
 [r,c]=size(simuOut);  
 for i=1:r  
     for j=1:c  

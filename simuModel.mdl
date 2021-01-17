@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.2"
+    ComputedModelVersion    "1.7"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -59,7 +59,7 @@ Model {
       $ObjectID		      3
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [29.0, 23.0, 1550.0, 838.0]
+      Location		      [243.0, 26.0, 1550.0, 838.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		4
@@ -86,9 +86,9 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[1807.0, 756.0]
-	ZoomFactor		[1.0]
-	Offset			[0.0, 0.0]
-	SceneRectInView		[0.0, 0.0, 1445.6, 604.8]
+	ZoomFactor		[1.25]
+	Offset			[49.151684977091705, -120.52998213462297]
+	SceneRectInView		[49.151684977091705, -120.52998213462297, 1156.48, 483.84]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -129,9 +129,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "zhangLinZuo"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Dec 23 18:50:42 2020"
-  RTWModifiedTimeStamp	  530648365
-  ModelVersionFormat	  "1.%<AutoIncrement:2>"
+  LastModifiedDate	  "Wed Jan 13 01:40:46 2021"
+  RTWModifiedTimeStamp	  532402769
+  ModelVersionFormat	  "1.%<AutoIncrement:7>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "disabled"
@@ -194,7 +194,7 @@ Model {
     $ObjectID		    8
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "simuModel"
-    overrideMode_	    [0U]
+    overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
       Dimension		      1
@@ -993,6 +993,7 @@ Model {
     DefaultExtrapolationMethodBetweenContTasks "None"
   }
   ExplicitPartitioning	  off
+  WSMdlFileData		  "DataTag0"
   BlockDefaults {
     ForegroundColor	    "black"
     BackgroundColor	    "white"
@@ -1120,7 +1121,7 @@ Model {
   }
   System {
     Name		    "simuModel"
-    Location		    [29, 23, 1579, 861]
+    Location		    [243, 26, 1793, 864]
     Open		    on
     PortBlocksUseCompactNotation off
     SetExecutionDomain	    off
@@ -1135,26 +1136,27 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "100"
+    ZoomFactor		    "125"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "12"
+    SIDHighWatermark	    "22"
     SimulinkSubDomain	    "Simulink"
     Block {
       BlockType		      DiscreteTransferFcn
       Name		      "Discrete\nTransfer Fcn"
       SID		      "9"
       Ports		      [1, 1]
-      Position		      [385, 64, 530, 116]
+      Position		      [385, 76, 530, 134]
       ZOrder		      9
       InputPortMap	      "u0"
-      Numerator		      "[0.45 0.23]"
-      Denominator	      "[1 -1.81 0.82]"
+      Numerator		      "num"
+      Denominator	      "den"
+      a0EqualsOne	      on
     }
     Block {
       BlockType		      FromWorkspace
       Name		      "From\nWorkspace"
       SID		      "6"
-      Position		      [230, 78, 295, 102]
+      Position		      [230, 73, 295, 97]
       ZOrder		      6
       VariableName	      "mSequences"
       SampleTime	      "0"
@@ -1178,7 +1180,7 @@ Model {
       Name		      "Scope"
       SID		      "7"
       Ports		      [1]
-      Position		      [335, 164, 365, 196]
+      Position		      [335, 29, 365, 61]
       ZOrder		      7
       ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
@@ -1195,8 +1197,8 @@ Model {
       "922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.06666666666"
       "66667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.05882352941"
       "17647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true,'OnceAtS"
-      "top',false),extmgr.Configuration('Tools','Measurements',true,'Version','2019b')),'Version','2019b','Position',[1"
-      " 41 1536 749.6])"
+      "top',false),extmgr.Configuration('Tools','Measurements',true,'Version','2019b')),'Version','2019b','Position',[-"
+      "754.2 -171.8 1536 749.6])"
       NumInputPorts	      "1"
       Floating		      off
     }
@@ -1246,7 +1248,7 @@ Model {
       Points		      [18, 0]
       Branch {
 	ZOrder			17
-	Points			[0, 90]
+	Points			[0, -40]
 	DstBlock		"Scope"
 	DstPort			1
       }
@@ -1254,13 +1256,14 @@ Model {
 	ZOrder			5
 	Points			[38, 0]
 	Branch {
-	  ZOrder		  16
-	  Points		  [0, 60]
+	  ZOrder		  32
+	  Points		  [0, 65]
 	  DstBlock		  "Mux"
 	  DstPort		  1
 	}
 	Branch {
 	  ZOrder		  15
+	  Points		  [14, 0]
 	  DstBlock		  "Discrete\nTransfer Fcn"
 	  DstPort		  1
 	}
@@ -1279,16 +1282,28 @@ Model {
       SrcPort		      1
       Points		      [42, 0]
       Branch {
-	ZOrder			20
-	Points			[0, 80]
-	DstBlock		"Mux"
-	DstPort			2
-      }
-      Branch {
-	ZOrder			19
+	ZOrder			27
+	Points			[0, -15]
 	DstBlock		"Scope1"
 	DstPort			1
       }
+      Branch {
+	ZOrder			20
+	Points			[0, 65]
+	DstBlock		"Mux"
+	DstPort			2
+      }
     }
+  }
+}
+MatData {
+  NumRecords		  1
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    4 $   8    (     @         %    \"     $    \"     0         %  0 !@    $    ,    3F%M9"
+    "0  5F%L=64       X    P    !@    @    $          4    (     0    ,    !         !   P!D96X #@   $@    &    \"     "
+    "8         !0    @    !     P    $         \"0   !@           #P/_8H7(_\"]?R_/0K7HW ]ZC\\.    ,     8    (    !    "
+    "      %    \"     $    #     0         0  , ;G5M  X   !     !@    @    &          4    (     0    (    !          "
+    "D    0    S<S,S,S,W#]Q/0K7HW#-/P"
   }
 }

@@ -123,6 +123,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>E:\eigen3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,9 +135,13 @@
     <ClCompile Include="example.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="discreteLinearLeastSquarse.h" />
-    <ClInclude Include="linearLeastSquaresStd.h" />
-    <ClInclude Include="recursiveLeastSquaresStd.h" />
+    <ClInclude Include="discreteForgettingFactorRLLS.h" />
+    <ClInclude Include="discreteLLS.h" />
+    <ClInclude Include="discreteRLLS.h" />
+    <ClInclude Include="forgettingFactorRLLS.h" />
+    <ClInclude Include="LLS_Std.h" />
+    <ClInclude Include="fileOperations.h" />
+    <ClInclude Include="RLLS_Std.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

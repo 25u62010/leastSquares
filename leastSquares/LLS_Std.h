@@ -13,12 +13,13 @@ using namespace std;
 namespace zlzLS {
 
 template<typename _Scalar, int _identifiedNum>
-class linearLeastSquaresStd
+class LLS_Std
 {
 public:
-	linearLeastSquaresStd() {
+	LLS_Std() {
 	}
 	Matrix<_Scalar, _identifiedNum, 1> optimize();
+
 	void addInputData(Matrix<_Scalar, 1, _identifiedNum> datas);
 	void addInputData(std::vector<_Scalar> datas);
 	void addInputData(Matrix<_Scalar, Dynamic, _identifiedNum> datas);
@@ -27,14 +28,12 @@ public:
 	void addOutputData(Matrix<_Scalar, Dynamic, 1> datas);
 	void addOutputData(std::vector<_Scalar> datas);
 
-	static vector<vector<_Scalar>>  readFromFile(const string &filename,int startCol,int endCol,int startRow=1,int endRow=-1);
-
 	void readTheta(Matrix< _Scalar, _identifiedNum, 1>& result);
 	void readTheta(vector< _Scalar>& result);
 
 	void printPHI();
 	void printTheta();
-	friend ostream & operator<<(ostream &out, linearLeastSquaresStd<_Scalar, _identifiedNum> &obj) {
+	friend ostream & operator<<(ostream &out, LLS_Std<_Scalar, _identifiedNum> &obj) {
 		out << "PHI="<<endl<<obj.PHI << endl<<"Y="<<endl << obj.Y << endl<<"theta="<<endl<<obj.theta.transpose()<<endl;
 		return out;
 	}
@@ -46,7 +45,7 @@ protected:
 };
 
 template<typename _Scalar, int _identifiedNum>
-Matrix<_Scalar, _identifiedNum, 1> linearLeastSquaresStd<_Scalar, _identifiedNum>::optimize() {
+Matrix<_Scalar, _identifiedNum, 1> LLS_Std<_Scalar, _identifiedNum>::optimize() {
 	Index rows = PHI.rows();
 	Matrix<_Scalar, _identifiedNum, Dynamic> phiTranspose;
 	phiTranspose.resize(_identifiedNum,rows);
@@ -63,7 +62,7 @@ Matrix<_Scalar, _identifiedNum, 1> linearLeastSquaresStd<_Scalar, _identifiedNum
 }
 
 template<typename _Scalar, int _identifiedNum>
-void linearLeastSquaresStd<_Scalar, _identifiedNum>::addInputData(Matrix<_Scalar, 1, _identifiedNum> datas) {
+void LLS_Std<_Scalar, _identifiedNum>::addInputData(Matrix<_Scalar, 1, _identifiedNum> datas) {
 	N++;
 	PHI.conservativeResize(N, _identifiedNum);
 	
@@ -73,9 +72,9 @@ void linearLeastSquaresStd<_Scalar, _identifiedNum>::addInputData(Matrix<_Scalar
 }
 
 template<typename _Scalar, int _identifiedNum>
-void linearLeastSquaresStd<_Scalar, _identifiedNum>::addInputData(std::vector<_Scalar> datas) {
+void LLS_Std<_Scalar, _identifiedNum>::addInputData(std::vector<_Scalar> datas) {
 	if (datas.size() != _identifiedNum) {
-		std::cout << "It has a problem of the size of the insered data" << std::endl;
+		std::cout << "It has a problem of the size of insered data" << std::endl;
 		return;
 	}
 	N++;
@@ -86,7 +85,7 @@ void linearLeastSquaresStd<_Scalar, _identifiedNum>::addInputData(std::vector<_S
 	}
 }
 template<typename _Scalar, int _identifiedNum>
-void linearLeastSquaresStd<_Scalar, _identifiedNum>::addInputData(Matrix<_Scalar, Dynamic, _identifiedNum> datas) {
+void LLS_Std<_Scalar, _identifiedNum>::addInputData(Matrix<_Scalar, Dynamic, _identifiedNum> datas) {
 	Index rows = datas.rows();
 	N += rows;
 	PHI.conservativeResize(N, _identifiedNum);
@@ -97,12 +96,12 @@ void linearLeastSquaresStd<_Scalar, _identifiedNum>::addInputData(Matrix<_Scalar
 	}
 }
 template<typename _Scalar, int _identifiedNum>
-void linearLeastSquaresStd<_Scalar, _identifiedNum>::addInputData(std::vector<std::vector<_Scalar>> datas) {
+void LLS_Std<_Scalar, _identifiedNum>::addInputData(std::vector<std::vector<_Scalar>> datas) {
 	Index rows = datas.size();
 	for (Index row = 0; row < rows; row++) {
 		std::vector<_Scalar> data = datas[row];
 		if (data.size()!=_identifiedNum) {
-			std::cout << "It has a problem of the size of the insered data" << std::endl;
+			std::cout << "It has a problem of the size of insered data" << std::endl;
 			return;
 		}
 		addInputData(data);
@@ -110,12 +109,12 @@ void linearLeastSquaresStd<_Scalar, _identifiedNum>::addInputData(std::vector<st
 }
 
 template<typename _Scalar, int _identifiedNum>
-void linearLeastSquaresStd<_Scalar, _identifiedNum>::addOutputData(Matrix<_Scalar, Dynamic, 1> datas) {
+void LLS_Std<_Scalar, _identifiedNum>::addOutputData(Matrix<_Scalar, Dynamic, 1> datas) {
 	Y.resize(datas.rows(),1);
 	Y << datas;
 }
 template<typename _Scalar, int _identifiedNum>
-void linearLeastSquaresStd<_Scalar, _identifiedNum>::addOutputData(std::vector<_Scalar> datas) {
+void LLS_Std<_Scalar, _identifiedNum>::addOutputData(std::vector<_Scalar> datas) {
 	Y.resize(datas.size(), 1);
 	for (unsigned int i = 0; i < datas.size(); i++) {
 		Y(i,0) = datas[i];
@@ -123,59 +122,23 @@ void linearLeastSquaresStd<_Scalar, _identifiedNum>::addOutputData(std::vector<_
 }
 
 template<typename _Scalar, int _identifiedNum>
-vector<vector<_Scalar>> linearLeastSquaresStd<_Scalar, _identifiedNum>::readFromFile(const string &filename,int startCol,int endCol,int startRow,int endRow) {
-	vector<vector<_Scalar>> result;
-	ifstream fAssociation;
-	fAssociation.open(filename.c_str());
-	int row = 1;
-	int size = 0;
-	string s;
-	if (!fAssociation.is_open()) {
-		cout << "cann't open file"<<filename << endl;
-		return result;
-	}
-	while (!fAssociation.eof()){
-		getline(fAssociation, s);
-		if (!s.empty() && row >= startRow&&(row<=endRow|| endRow ==-1)) {
-			stringstream ss;
-			ss << s;
-			_Scalar val;
-			int col = 1;
-			result.push_back(vector<_Scalar>());
-
-			while (ss >> val) {
-				if (col >= startCol&&col <= endCol) {
-					result[size].push_back(val);
-				}
-				col++;
-			}
-			size++;
-		}	
-		row++;
-	}
-	fAssociation.close();
-	return result;
-}
-template<typename _Scalar, int _identifiedNum>
-void linearLeastSquaresStd<_Scalar, _identifiedNum>::readTheta(Matrix< _Scalar, _identifiedNum, 1>& result) {
+void LLS_Std<_Scalar, _identifiedNum>::readTheta(Matrix< _Scalar, _identifiedNum, 1>& result) {
 	result<<theta;
 }
 template<typename _Scalar, int _identifiedNum>
-void linearLeastSquaresStd<_Scalar, _identifiedNum>::readTheta(vector< _Scalar>& result) {
+void LLS_Std<_Scalar, _identifiedNum>::readTheta(vector< _Scalar>& result) {
 	for (int i = 0; i < _identifiedNum; i++) {
 		result.push_back(theta(i, 0));
 	}
 }
 
 template<typename _Scalar, int _identifiedNum>
-void linearLeastSquaresStd<_Scalar, _identifiedNum>::printPHI() {
+void LLS_Std<_Scalar, _identifiedNum>::printPHI() {
 	std::cout << "PHI=" << std::endl << PHI << std::endl;
 }
 
 template<typename _Scalar, int _identifiedNum>
-void linearLeastSquaresStd<_Scalar, _identifiedNum>::printTheta() {
+void LLS_Std<_Scalar, _identifiedNum>::printTheta() {
 	std::cout << "theta=" << std::endl << theta << std::endl;
 }
-
-
 }
